@@ -13,7 +13,7 @@ int main(void) {
         printf("x e maior que y \n");
         }
 
-    else if (x == y) {
+    else {
             printf("x e igual a y \n");
         }
     
