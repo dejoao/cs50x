@@ -3,7 +3,7 @@
 
 int add(int a, int b);
 
-int main(void){
+/*int main(void){
 
     int x = get_int("Qual valor x?\n");
     int y = get_int("Qual valor y?\n");
@@ -15,5 +15,14 @@ int main(void){
 int add(int a, int b){
 
     return a + b;
+
+}*/
+int main(void){
+
+    int x = get_int("Qual valor x?\n");
+    int y = get_int("Qual valor y?\n");
+
+    float z = (float) x / (float) y;
+    printf("%.5f\n", z);
 
 }
