@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/Joaop/Desktop/CS50x/Code",
-      "program": "c:/Users/Joaop/Desktop/CS50x/Code/build/Debug/outDebug",
+      "cwd": "c:/Users/Joaop/Desktop/CS50x/Code/Week 02 - Arrays/substitution",
+      "program": "c:/Users/Joaop/Desktop/CS50x/Code/Week 02 - Arrays/substitution/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
