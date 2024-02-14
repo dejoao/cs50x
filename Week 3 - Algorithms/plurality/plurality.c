@@ -20,7 +20,7 @@ int candidate_count;
 
 // Function prototypes
 bool vote(string name);
-void print_winner(void);
+string print_winner(void);
 
 int main(int argc, string argv[])
 {
@@ -59,7 +59,8 @@ int main(int argc, string argv[])
     }
 
     // Display winner of election
-    print_winner();
+    string resultado = print_winner();
+    printf("%s \n", resultado);
 }
 
 // Update vote totals given a new vote
@@ -77,18 +78,36 @@ bool vote(string name)
 }
 
 // Print the winner (or winners) of the election
-void print_winner(void)
+string print_winner(void)
 {
-    //achar maximo de votos
-    for (int i = 0; i < candidate_count; i++)
+    // Algoritmo Bubble Sort
+    for (int i = 0; i < candidate_count - 1; i++)
     {
-        int maxVotes =+ candidates[i].votes;
+        for (int j = 0; j < candidate_count - 1 - i; j++)
+        {
+            if (candidates[j].votes < candidates[j + 1].votes)
+            {
+                // Troca de posição dos candidatos
+                candidate temp = candidates[j];
+                candidates[j] = candidates[j + 1];
+                candidates[j + 1] = temp;
+            }
+        }
     }
-    //Achar candidato com mais votos
-    for (int j = 0; j < candidate_count; j++)
+    if (candidates[0].votes == candidates[1].votes)
     {
-        
+        // Imprime os vencedores em caso de empate
+        for (int i = 0; i < candidate_count; i++)
+        {
+            if (candidates[i].votes == candidates[0].votes)
+            {
+                printf("%s\n", candidates[i].name);
+            }
+        }
     }
-    
-    return;
+    else
+    {
+        // Retorna o nome do candidato com mais votos (o vencedor)
+        return candidates[0].name;
+    }
 }
