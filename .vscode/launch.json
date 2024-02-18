@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/Joaop/Desktop/CS50x/Code/Week 3 - Algorithms/plurality",
-      "program": "c:/Users/Joaop/Desktop/CS50x/Code/Week 3 - Algorithms/plurality/build/Debug/outDebug",
+      "cwd": "c:/Users/Joaop/Desktop/CS50x/Code/Week 4 - Memory/volume",
+      "program": "c:/Users/Joaop/Desktop/CS50x/Code/Week 4 - Memory/volume/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
