@@ -24,7 +24,13 @@ int main(int argc, char *argv[])
     uint8_t buffer[bloco];
 
     //Crie jpegs a partir dos dados
-    char c;
-    fread(&c, sizeof(char[3]), 4, &card);
+    while(fread(buffer, 1, bloco, &card) == bloco)
+    {
+        if (buffer ==  )
+        {
+            /* code */
+        }
+        
+    }
     
 }
