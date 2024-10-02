@@ -40,5 +40,4 @@ int espaco (int quantidade){
     {
         printf(" ");
     }
-    
 }
