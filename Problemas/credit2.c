@@ -35,7 +35,7 @@ int caracteres (long long cartao){
 int validador(char cartaoConvertido[]){
     // Inverter o numero do cartao
     int qCaracteresCartao = strlen(cartaoConvertido) + 1;
-    printf("%i\n", qCaracteresCartao);
+    //printf("%i\n", qCaracteresCartao);
     char cartaoInvertido[qCaracteresCartao];
     int indiceCI = 0;
     int indiceCC = qCaracteresCartao - 2;
@@ -47,7 +47,27 @@ int validador(char cartaoConvertido[]){
         indiceCC--;
 
     }
-    //printf("%s\n", cartaoInvertido);
+    printf("%s\n", cartaoInvertido);
 
-    //
+    //separar cada dois digitos, comecando do segundo(um sim, um nao).
+    char nSeparados[strlen(cartaoInvertido) / 2];
+    char nSeparadosR[strlen(cartaoInvertido) / 2];
+    int indiceNS = 0;
+    int indiceCI2 = 1;
+    for(int i = 0; i < qCaracteresCartao; i++){
+
+        if(indiceCI2 % 2 == 0){
+            nSeparadosR[indiceNS] = cartaoInvertido[indiceCI2];
+            indiceNS++;
+            indiceCI2 + 2;
+        }else{
+            nSeparados[indiceNS] = cartaoInvertido[indiceCI2];
+            indiceNS++;
+            indiceCI2 + 2;
+        }
+        
+    }
+    printf("%s", nSeparados);
 }
+/*colocar um if else dentro de um loop, se o indice for par vai pra la, impar pra ca.
+agora tem q achar oq ta dando esse bug e resolver. nao esta separando direito*/
