@@ -3,10 +3,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-int validador(char cartaoConvertido[]);
+int validador(string cartao[]);
 int caracteres (long long cartao);
 
+
 long long cartao;
+
 
 
 int main(void){
@@ -19,11 +21,12 @@ int main(void){
     //Preciso converter o cartao para uma string, so assim posso manipular
     char cartaoConvertido[caracteres(cartao)];
     sprintf(cartaoConvertido, "%lli", cartao);
+    // um loop que multiplique por dois a cada 2 digitos, comecando do penultimo
     
     validador(cartaoConvertido);
 }
 
-int caracteres (long long cartao){
+int caracteres (string cartao[]){
     int count = 0;
     while (cartao != 0){
         cartao = cartao/10;
@@ -32,42 +35,22 @@ int caracteres (long long cartao){
     return count;
 }
 
-int validador(char cartaoConvertido[]){
-    // Inverter o numero do cartao
-    int qCaracteresCartao = strlen(cartaoConvertido) + 1;
-    //printf("%i\n", qCaracteresCartao);
-    char cartaoInvertido[qCaracteresCartao];
-    int indiceCI = 0;
-    int indiceCC = qCaracteresCartao - 2;
+int validador(string cartao[]){
 
-    for(int i = 0; i < qCaracteresCartao ; i++){
+    //printf("%i", caracteres(cartao));
+    // um loop que multiplique por dois a cada 2 digitos, comecando do penultimo
+    int qCaracteres = caracteres(cartao);
+    long long cartaoSeparado[qCaracteres / 2];
+    int indiceCS = 0;
+    for(int i = 0; i < (caracteres(cartao) - 1) / 2; i++){
 
-        cartaoInvertido[indiceCI] = cartaoConvertido[indiceCC];
-        indiceCI++;
-        indiceCC--;
+        long long cartaoSeparado[indiceCS] = stroll(cartao[qCaracteres], NULL, 10);
+        qCaracteres + 2;
 
     }
-    printf("%s\n", cartaoInvertido);
+    return qCaracteres;
 
-    //separar cada dois digitos, comecando do segundo(um sim, um nao).
-    char nSeparados[strlen(cartaoInvertido) / 2];
-    char nSeparadosR[strlen(cartaoInvertido) / 2];
-    int indiceNS = 0;
-    int indiceCI2 = 1;
-    for(int i = 0; i < qCaracteresCartao; i++){
-
-        if(indiceCI2 % 2 == 0){
-            nSeparadosR[indiceNS] = cartaoInvertido[indiceCI2];
-            indiceNS++;
-            indiceCI2 + 2;
-        }else{
-            nSeparados[indiceNS] = cartaoInvertido[indiceCI2];
-            indiceNS++;
-            indiceCI2 + 2;
-        }
-        
-    }
-    printf("%s", nSeparados);
 }
-/*colocar um if else dentro de um loop, se o indice for par vai pra la, impar pra ca.
-agora tem q achar oq ta dando esse bug e resolver. nao esta separando direito*/
+/*na funcao validador estou recebendo uma string, a cada dois digitos tenho que
+pegar e converter em long long e multiplicar por dois e guardar em uma
+variavel separada*/
