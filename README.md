@@ -1,4 +1,6 @@
-![](https://github.com/dejoao/cs50x/blob/main/src/212026_1298716.png)
+<p align="center">
+  <img src="https://github.com/dejoao/cs50x/blob/main/src/212026_1298716.png" alt="descrição" width="610"/>
+</p>
 
 O CS50x é uma versão online do famoso curso de introdução à ciência da computação de Harvard. Ele ensina os conceitos fundamentais da programação e da ciência da computação, cobrindo temas como algoritmos, estruturas de dados, desenvolvimento web, segurança, e mais. Ao longo do curso, aprendendemos várias tecnologias, incluindo C, Python, SQL, HTML, CSS e JavaScript, por meio de projetos práticos.
 
