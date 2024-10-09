@@ -51,12 +51,23 @@ int validador (char cartaoConvertido[]){
     printf("%i\n", caracteres(cartao));
     printf("%s\n", separados);
 
-    //converter separados para long
-
-    //Multiplicar por dois cada digito separado e somar tudo
+    //Multiplicar por dois cada digito separado e, somar tudo
+    char separadosMultiplicados[mCartao];
+    
+    
+    
     //Transformar o restante dos numeros em long long tambem
     //Somar o restante com o resultado da outra parte
 
 }
-/*junto com o loop que separa os numeros preciso colocar a multiplicacao por
-dois*/
+
+/*
+------------------------
+   __                  
+   \ \  __ _  ___      
+    \ \/ _` |/ _ \ 
+ /\_/ / (_| | (_) |
+ \___/ \__,_|\___/ 
+
+------------------------                         
+*/
