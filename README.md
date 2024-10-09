@@ -10,5 +10,5 @@ Este repositório foi criado para apresentar os projetos que desenvolvi ao longo
 ---
 - [credit.c](https://github.com/dejoao/cs50x/blob/main/problemas/credit3.c) O inicio
 - [substitution.c](https://github.com/dejoao/cs50x/tree/main/Week%202%20-%20Arrays/substitution) Talvez meu favorito
-- [runoff.c](https://github.com/dejoao/cs50x/tree/main/Week%203%20-%20Algorithms/runoff) Candidato do ano
+- [runoff.c](https://github.com/dejoao/cs50x/tree/main/Week%203%20-%20Algorithms/runoff) Vote aqui
 - [rcover.c](https://github.com/dejoao/cs50x/tree/main/Week%204%20-%20Memory/recover) Recuperando 
