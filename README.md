@@ -8,7 +8,7 @@ O CS50x é uma versão online do famoso curso de introdução à ciência da com
 Este repositório foi criado para apresentar os projetos que desenvolvi ao longo do curso, destacando aqueles que considero mais importantes. Nele, compartilho as soluções que implementei e as abordagens que utilizei para resolver os desafios propostos.
 
 ---
-- [credit.c](#credit.c) O inicio
+- [credit.c](#creditc) O inicio
 - [substitution.c](https://github.com/dejoao/cs50x/tree/main/Week%202%20-%20Arrays/substitution) Talvez meu favorito
 - [runoff.c](https://github.com/dejoao/cs50x/tree/main/Week%203%20-%20Algorithms/runoff) Vote aqui
 - [rcover.c](https://github.com/dejoao/cs50x/tree/main/Week%204%20-%20Memory/recover) Recuperando
