@@ -8,7 +8,7 @@ O CS50x é uma versão online do famoso curso de introdução à ciência da com
 Este repositório foi criado para apresentar os projetos que desenvolvi ao longo do curso, destacando aqueles que considero mais importantes. Nele, compartilho as soluções que implementei e as abordagens que utilizei para resolver os desafios propostos.
 
 ---
-- [credit.c](https://github.com/dejoao/cs50x/blob/main/problemas/credit3.c) O inicio
+- [credit.c](https://github.com/dejoao/cs50x/edit/main/README.md#creditc) O inicio
 - [substitution.c](https://github.com/dejoao/cs50x/tree/main/Week%202%20-%20Arrays/substitution) Talvez meu favorito
 - [runoff.c](https://github.com/dejoao/cs50x/tree/main/Week%203%20-%20Algorithms/runoff) Vote aqui
 - [rcover.c](https://github.com/dejoao/cs50x/tree/main/Week%204%20-%20Memory/recover) Recuperando
@@ -23,3 +23,6 @@ Então qual é a fórmula secreta? Bem, a maioria dos cartões usa um algoritmo 
 3. Se o último dígito do total for 0 (ou, em termos mais formais, se o total módulo 10 for congruente a 0), o número é válido!
 
 ### **Implementação**
+![funcionamento](https://github.com/dejoao/cs50x/blob/main/src/credit.gif)
+[Codigo](https://github.com/dejoao/cs50x/blob/main/problemas/credit3.c)
+
