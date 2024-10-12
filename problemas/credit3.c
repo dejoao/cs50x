@@ -52,12 +52,37 @@ int validador (char cartaoConvertido[]){
     printf("%s\n", separados);
 
     //Multiplicar por dois cada digito separado e, somar tudo
-    char separadosMultiplicados[mCartao];
-    
-    
+    int resultadoMS = 0;
+
+    for (int i = 0; i < mCartao; i++){
+        int q = separados[i] - '0';
+        q *= 2;
+        resultadoMS += q;
+        //separadosConvertido[i] = q + '0';
+    }
+    printf("%i\n", resultadoMS);
     
     //Transformar o restante dos numeros em long long tambem
+    char restantes[mCartao];
+    int indiceR = 0;
+    int indiceC2 = caracteres(cartao);
+
+    for(int i =0; i < caracteres(cartao); i++){
+        restantes[indiceR] = cartaoConvertido[indiceC2];
+        indiceR++;
+        indiceC2 -= 2;
+    }
+    //printf("%s", restantes);
+
     //Somar o restante com o resultado da outra parte
+    int restanteS = 0;
+
+    for (int i = 0; i < mCartao + 1; i++){
+        int q = restantes[i] - '0';
+        restanteS += q;
+        //separadosConvertido[i] = q + '0';
+    }
+    printf("%i\n", restanteS);
 
 }
 
