@@ -8,21 +8,16 @@ O CS50x é uma versão online do curso de introdução à ciência da computaç�
 Este repositório foi criado para apresentar os projetos que desenvolvi ao longo do curso, destacando aqueles que considero mais importantes. Nele, compartilho as soluções que implementei e as abordagens que utilizei para resolver os desafios propostos.
 
 ---
-- [credit.c](#creditc) O inicio
+- [cash.c](#cashc) O inicio
 - [substitution.c](https://github.com/dejoao/cs50x/tree/main/Week%202%20-%20Arrays/substitution) Talvez meu favorito
 - [runoff.c](https://github.com/dejoao/cs50x/tree/main/Week%203%20-%20Algorithms/runoff) Vote aqui
 - [recover.c](https://github.com/dejoao/cs50x/tree/main/Week%204%20-%20Memory/recover) Recuperando
 ---
-## **credit.c**
+## **cash.c**
 ### Desafio
-Neste projeto, o objetivo é implementar um programa em C que verifica a validade de números de cartões de crédito. Cartões da American Express, MasterCard e Visa possuem números com formatos específicos, incluindo uma "fórmula de verificação" que ajuda a detectar erros, como transposições de dígitos. O programa deve analisar o número informado e determinar se ele é válido de acordo com essas regras.
-
-Então qual é a fórmula secreta? Bem, a maioria dos cartões usa um algoritmo inventado por Hans Peter Luhn da IBM. De acordo com o algoritmo de Luhn, você pode determinar se um número de cartão de crédito é (sintaticamente) válido da seguinte forma:
-1. Multiplique cada outro dígito por 2, começando pelo penúltimo dígito do número, e depois some os dígitos desses produtos.
-2. Adicione a soma à soma dos dígitos que não foram multiplicados por 2.
-3. Se o último dígito do total for 0 (ou, em termos mais formais, se o total módulo 10 for congruente a 0), o número é válido!
+Suponha que você trabalha em uma loja e um cliente lhe dá $ 1,00 por um doce que custa $ 0,50. Você precisará pagar a ele o troco. Ao dar o troco, é provável que você queira minimizar o número de moedas que está distribuindo para cada cliente, para não ficar sem (ou irritar o cliente!). Implemente um programa em C que imprima as moedas mínimas necessárias para fazer a quantia dada de troco. Moedas de 25, 10, 5 e 1 centavos.
 
 ### **Implementação**
-![funcionamento](src/credit.gif)
-[Codigo](https://github.com/dejoao/cs50x/blob/main/problemas/credit3.c)
+![funcionamento](src/cash.gif)
+[Codigo](https://github.com/dejoao/cs50x/blob/main/Week%201%20-%20C/Problema%2002%20-%20cash/cash.c)
 
