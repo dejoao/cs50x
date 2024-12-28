@@ -5,8 +5,8 @@
 int main(int argc, char *argv[])
 {
     //Aceite uma unica linha de comando
-    char argumento = argv[1];
-    char VerificacaoCard = "card.raw";
+    char *argumento = argv[1];
+    char *VerificacaoCard = "card.raw";
     if (argc != 2)
     {
         printf("Usage: ./recover FILE\n");
@@ -26,10 +26,7 @@ int main(int argc, char *argv[])
     //Crie jpegs a partir dos dados
     while(fread(buffer, 1, bloco, &card) == bloco)
     {
-        if (buffer ==  )
-        {
-            /* code */
-        }
+        
         
     }
     
