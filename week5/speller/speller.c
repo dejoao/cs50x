@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    // Check whether there was an error
+    // Check whether there was an error 
     if (ferror(file))
     {
         fclose(file);

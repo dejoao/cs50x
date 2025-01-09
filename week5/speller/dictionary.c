@@ -5,48 +5,70 @@
 
 #include "dictionary.h"
 
-// Represents a node in a hash table
+// Representa um nó em uma tabela de hash
 typedef struct node
 {
     char word[LENGTH + 1];
     struct node *next;
 } node;
 
-// TODO: Choose number of buckets in hash table
+// TODO: Escolher o número de buckets na tabela de hash
 const unsigned int N = 26;
 
 // Hash table
 node *table[N];
 
-// Returns true if word is in dictionary, else false
+// Retorna true se a palavra estiver no dicionário, caso contrário, false
 bool check(const char *word)
 {
     // TODO
     return false;
 }
 
-// Hashes word to a number
+// Hashes de palavra para um número
 unsigned int hash(const char *word)
 {
     // TODO: Improve this hash function
     return toupper(word[0]) - 'A';
 }
 
-// Loads dictionary into memory, returning true if successful, else false
+// Carrega o dicionário na memória, retornando true se for bem-sucedido, caso contrário, false
 bool load(const char *dictionary)
 {
+    // Abrir dicionario
+    FILE *arquivo = fopen(dictionary, "r");
+    if(arquivo == NULL)
+    {
+        return false;
+    }
+    // ler cada string dentro do arquivo
+    while(fscan(arquivo, "%s", word))
+    {
+        // criar no para cada string
+        char *word1 = malloc(LENGTH + 1);
+        if(word1 == NULL)
+        {
+            return false;
+        }
+        char *strcpy(word1, word);
+        hash(word1)
+    }
+    fclose(arquivo);
+    
+
+
     // TODO
-    return false;
+    return false; 
 }
 
-// Returns number of words in dictionary if loaded, else 0 if not yet loaded
+// Retorna o número de palavras no dicionário se carregadas, caso contrário, 0 se ainda não carregadas
 unsigned int size(void)
 {
     // TODO
     return 0;
 }
 
-// Unloads dictionary from memory, returning true if successful, else false
+// Descarrega o dicionário da memória, retornando true se for bem-sucedido, caso contrário, false
 bool unload(void)
 {
     // TODO
