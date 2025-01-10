@@ -42,16 +42,22 @@ bool load(const char *dictionary)
         return false;
     }
     // ler cada string dentro do arquivo
-    while(fscan(arquivo, "%s", word))
+    while(fscan(arquivo, "%s", char palavra[LENGTH + 1]))
     {
-        // criar no para cada string
-        char *word1 = malloc(LENGTH + 1);
-        if(word1 == NULL)
+        //Criar espaço para um novo nó de tabela hash
+        node novo_no = malloc(sizeof(node)); //fazer verificacao malloc
+        if (novo_no == NULL)
         {
             return false;
         }
-        char *strcpy(word1, word);
-        hash(word1)
+        //Copie a palavra para o novo nó
+        strcpy(novo_no->word, palavra);
+        //Hash a palavra para obter o seu valor de hash
+        int indice_hash = hash(novo_no->word);
+        //Insira o novo nó na tabela de hash (usando o índice especificado pelo seu valor de hash)
+        novo_no->next = table[indice_hash];
+        table[indice_hash] = novo_no;
+
     }
     fclose(arquivo);
     
