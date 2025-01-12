@@ -2,6 +2,10 @@
 
 #include <ctype.h>
 #include <stdbool.h>
+#include <strings.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "dictionary.h"
 
@@ -15,14 +19,24 @@ typedef struct node
 // TODO: Escolher o número de buckets na tabela de hash
 const unsigned int N = 26;
 
+//variavel para contar quantas palavras tem - funcao size
+int quantidade_palavras = 0;
+
 // Hash table
 node *table[N];
 
 // Retorna true se a palavra estiver no dicionário, caso contrário, false
 bool check(const char *word)
 {
-    // TODO
-    return false;
+    int indice = hash(word);
+
+    if(strcasecmp(word, table[indice]->word) == 0)
+    {
+        return true;
+    }else
+    {
+        return false;
+    }
 }
 
 // Hashes de palavra para um número
@@ -46,10 +60,13 @@ bool load(const char *dictionary)
         return false;
     }
     // ler cada string dentro do arquivo
-    while(fscan(arquivo, "%s", char palavra[LENGTH + 1]))
+    char palavra[LENGTH + 1];
+    while(fscanf(arquivo, "%s", palavra))
     {
+        //colocar um contador aqui
+        quantidade_palavras++;
         //Criar espaço para um novo nó de tabela hash
-        node novo_no = malloc(sizeof(node)); //fazer verificacao malloc
+        struct node *novo_no = malloc(sizeof(struct node));
         if (novo_no == NULL)
         {
             return false;
@@ -64,23 +81,30 @@ bool load(const char *dictionary)
 
     }
     fclose(arquivo);
-    
+
 
 
     // TODO
-    return false; 
+    return false;
 }
 
 // Retorna o número de palavras no dicionário se carregadas, caso contrário, 0 se ainda não carregadas
 unsigned int size(void)
 {
     // TODO
-    return 0;
+    return quantidade_palavras;
 }
 
-// Descarrega o dicionário da memória, retornando true se for bem-sucedido, caso contrário, false
+// Descarrega o dicionário da memória, retornando true se for bem-sucedido, caso contrário, false  \ PRECISO RESOLVER ISSO AQUI
 bool unload(void)
 {
-    // TODO
-    return false;
+    free(struct *novo_no);
+    novo_no = NULL
+    if (novo_no == NULL)
+    {
+        return true;
+    }else
+    {
+        return false;
+    }
 }
