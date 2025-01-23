@@ -2,14 +2,17 @@ import csv
 import sys
 
 
-def main():
+def main(*args): # ve como usar argumentos em python
 
     # TODO: Verificar o uso da linha de comando
+    if args != 2:
+        print ("Use: dna.py databases/NAME.csv sequences/NUMBER.csv")
 
     # TODO: Ler arquivo de banco de dados em uma variável
-
+    database = args
+    print(f"{database}")
     # TODO: Ler arquivo de sequência de DNA em uma variável
-
+    
     # TODO: Encontrar a correspondência mais longa de cada STR na sequência de DNA
 
     # TODO: Verificar o banco de dados para perfis correspondentes
