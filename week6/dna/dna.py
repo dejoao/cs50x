@@ -20,6 +20,8 @@ def main(*args): # ve como usar argumentos em python
     with database as file:
         reader = csv.DictReader(file)
         #print(reader.fieldnames)
+        strs = reader.fieldnames
+    strs = strs[1:]
 
     # TODO: Ler arquivo de sequência de DNA em uma variável
     dna_arquivo = open(f"{argvs[2]}")
@@ -27,7 +29,20 @@ def main(*args): # ve como usar argumentos em python
     #print(f"{dna}")
 
     # TODO: Encontrar a correspondência mais longa de cada STR na sequência de DNA
-        # fazer a contagem de cada str, usar funcao longest_match, passar sequence e subsequence = str
+    quantidade_de_str = 0
+    for i in strs:
+        quantidade_de_str += 1
+    #print(f"{quantidade_de_str}")
+
+    quantidade_str = [0] * quantidade_de_str 
+    
+    for j in range(quantidade_de_str):
+        quantidade_str[j] = longest_match(dna, strs[j])
+
+    
+    vinculo = dict(zip(strs, quantidade_str))
+    #print(vinculo)
+    
     # TODO: Verificar o banco de dados para perfis correspondentes
 
     return
@@ -40,6 +55,7 @@ def longest_match(sequence, subsequence):
     longest_run = 0
     subsequence_length = len(subsequence)
     sequence_length = len(sequence)
+    
 
     # Verifique cada caractere na sequência para a maioria das execuções consecutivas de subsequência
     for i in range(sequence_length):
