@@ -22,6 +22,14 @@ def main(*args): # ve como usar argumentos em python
         #print(reader.fieldnames)
         strs = reader.fieldnames
     strs = strs[1:]
+    rows = []
+    
+    with open(f"{name_database}") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            rows.append(row)
+    
+    print(rows)
 
     # TODO: Ler arquivo de sequência de DNA em uma variável
     dna_arquivo = open(f"{argvs[2]}")
@@ -41,9 +49,13 @@ def main(*args): # ve como usar argumentos em python
 
     
     vinculo = dict(zip(strs, quantidade_str))
-    #print(vinculo)
+    print(vinculo)
     
     # TODO: Verificar o banco de dados para perfis correspondentes
+    for i in rows:
+        if vinculo[0] == rows[i]:
+            break
+        else:
 
     return
 
