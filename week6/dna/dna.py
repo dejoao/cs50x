@@ -1,5 +1,6 @@
 import csv
 import sys
+import re
 
 
 def main(*args): # ve como usar argumentos em python
@@ -29,7 +30,7 @@ def main(*args): # ve como usar argumentos em python
         for row in reader:
             rows.append(row)
     
-    print(rows)
+    #print(rows[1])
 
     # TODO: Ler arquivo de sequência de DNA em uma variável
     dna_arquivo = open(f"{argvs[2]}")
@@ -47,16 +48,38 @@ def main(*args): # ve como usar argumentos em python
     for j in range(quantidade_de_str):
         quantidade_str[j] = longest_match(dna, strs[j])
 
-    
-    vinculo = dict(zip(strs, quantidade_str))
-    print(vinculo)
+    #print(quantidade_str)
     
     # TODO: Verificar o banco de dados para perfis correspondentes
-    for i in rows:
-        if vinculo[0] == rows[i]:
-            break
-        else:
+    
+    contador = 0
 
+    # Loop que itera por cada linha (rows)
+    for q in range(len(rows)):
+        # Transformar o rows atual em lista
+        lista = list(rows[q].values())
+
+        # Criar uma nova lista sem a primeira string - nome da pessoa
+        strs_lista = []
+        for x in lista[1:]:
+            strs_lista.append(int(x)) #converte para int
+
+        # Resetar contador
+        contador = 0
+
+        # Comparar cada valor de quantidade_str com os valores correspondentes de strs_lista
+        for j in range(len(strs_lista)):
+            if quantidade_str[j] == strs_lista[j]:
+                contador += 1
+            else:
+                break
+
+        # Se o contador atingir a quantidade esperada  as STRs correspondem, exibir o resultado
+        if contador == quantidade_de_str:
+            print(lista[0])
+            break
+    else:
+        print("No match")
     return
 
 
