@@ -1,0 +1,4 @@
+SELECT AVG(energy) AS energy_media,
+   ...> AVG(valence) AS valence_media,
+   ...> AVG(danceability) AS danceability_media
+   ...> FROM songs;
