@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            // TODO: Add code to check answers to questions
+            function verificarResposta(botao, respostaCorreta) {
+            if (respostaCorreta) {
+                botao.classList.add('correct');
+                botao.innerText = "✅ " + botao.innerText;
+                document.getElementById("message").innerText = "Correct!";
+                document.getElementById("message").style.color = "green";
+            } else {
+                botao.classList.add('incorrect');
+                botao.innerText = "❌ " + botao.innerText;
+                document.getElementById("message").innerText = "Incorrect";
+                document.getElementById("message").style.color = "red";
+            }
+            botao.disabled = true;
+        }
+
+        function verificarTexto() {
+            let input = document.getElementById("respostaInput");
+            let mensagem = document.getElementById("textMessage");
+            let respostaCorreta = "David Malan"; // Resposta correta
+
+            if (input.value.trim().toLowerCase() === respostaCorreta.toLowerCase()) {
+                input.style.borderColor = "green";
+                input.style.backgroundColor = "#d4edda"; // Verde claro
+                mensagem.innerText = "Correct!";
+                mensagem.style.color = "green";
+            } else {
+                input.style.borderColor = "red";
+                input.style.backgroundColor = "#f8d7da"; // Vermelho claro
+                mensagem.innerText = "Incorrect";
+                mensagem.style.color = "red";
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <!-- TODO: Add multiple choice question here -->
+                <h3>What is the coolest programming language?</h3>
+                <button class="button" onclick="verificarResposta(this, false)">JavaScript</button>
+                <button class="button" onclick="verificarResposta(this, false)">Rust</button>
+                <button class="button" onclick="verificarResposta(this, true)">C</button>
+                <button class="button" onclick="verificarResposta(this, false)">Python</button>
+                <p id="message"></p>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                <h3>What is the name of the cs50x teacher?</h3>
+                <input id="respostaInput"> 
+                <button class="button" onclick="verificarTexto()">Check</button>
+                <p id="textMessage"></p>
+            
+            </div>
+        </div>
+    </body>
+</html>
