@@ -12,6 +12,22 @@ body {
     text-align: center;
 }
 
+h1 {
+    font-weight: bold;
+}
+
+footer {
+    background: #13151b;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(129, 129, 129);
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -54,20 +70,20 @@ body {
     margin: 0 auto; 
     padding: 20px; 
 }
-.container1 {
-    text-align: center;
+
+.btn-purple {
+    background-color: #6e00cc; 
+    color: white; 
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s;
 }
 
-.botao {
-    display: inline-block;
-    padding: 15px 50px;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    background-color: #8800ff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: 0.3s;
+.btn-purple:hover {
+    background-color: #5e00b1; 
 }
 
 .botao:hover {
@@ -92,4 +108,26 @@ ul.recursos {
 ul.recursos li {
     font-size: 18px;
     margin: 10px 0;
+}
+
+.botao-estilizado {
+    background-color: #6e00cc;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.botao-estilizado:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.botao-estilizado:active {
+    transform: scale(0.98);
 }

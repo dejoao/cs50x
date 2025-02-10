@@ -1,0 +1,12 @@
+Tags HTML:
+    <ul< <li> <button>;
+    <nav> <img> <div>;
+    <a> <h2> <p>;
+    <footer> <br>.
+
+CSS:
+    .botao ul.recursos .container;
+    .navbar .btn-purple.
+
+JavaScript:
+    javascript was used in the feature to change the background color of the index page.
