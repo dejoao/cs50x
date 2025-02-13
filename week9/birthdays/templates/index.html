@@ -17,8 +17,8 @@
                 <!-- TODO: Criar um formulário para os usuários enviarem um nome, um mês e um dia -->
                 <form action="/" method="post">
                     <input autocomplete="off" autofocus placeholder="Name" name="name" type="text" required>
-                    <input autocomplete="off" autofocus placeholder="Month" month="month" type="text" required>
-                    <input autocomplete="off" autofocus placeholder="Day" day="day" type="text" required>
+                    <input autocomplete="off" autofocus placeholder="Month" name="month" type="number" required>
+                    <input autocomplete="off" autofocus placeholder="Day" name="day" type="number" required>
                     <button type="submit">Add Birthday</button>
                 </form>
             </div>
@@ -35,10 +35,16 @@
                     </thead>
                     <tbody>
                         <!-- TODO: Percorrer as entradas do banco de dados para exibi-las nesta tabela -->
-                         
+                        {% for registro in registros %} 
+                        <tr>
+                            <td>{{ registro.name }}</td>
+                            <td>{{ registro.month}} / {{registro.day }}</td>
+                         </tr>
+                        {% endfor %}
+
                     </tbody>
                 </table>
             </div>
         </div>
     </body>
-</html>
+</html>`
