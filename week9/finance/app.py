@@ -1,4 +1,5 @@
 import os
+import sqlite3 
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -112,11 +113,33 @@ def quote():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    return apology("TODO")
+    if request.method == "POST":
+        # verifica se username foi enviado
+        if not request.form.get("username"):
+                return apology("usuario invalido", 403)
+        # armazena no db
+        try:
+            rows = db.execute(
+                "INSERT INTO users (username) VALUES (?);", request.form.get("username") # provavelmente tenho que inserir a hash junto, por isso do erro
+            )
+        except sqlite3.Error: # se existir o username
+            return apology("usuario existente", 403)
+        # verifica se a senha foi enviada
+        if not request.form.get("password"):
+            return apology("senha invalida", 403)
+        elif not request.form.get("confirmation") or request.form.get("confirmation") != request.form.get("password") :
+            return apology("senha invalida e/ou senha diferente", 403)
+        
+
+        
+
+        
+    return render_template("register.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
     """Sell shares of stock"""
+
     return apology("TODO")
