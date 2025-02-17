@@ -117,24 +117,21 @@ def register():
         # verifica se username foi enviado
         if not request.form.get("username"):
                 return apology("usuario invalido", 403)
-        # armazena no db
-        try:
-            rows = db.execute(
-                "INSERT INTO users (username) VALUES (?);", request.form.get("username") # provavelmente tenho que inserir a hash junto, por isso do erro
-            )
-        except sqlite3.Error: # se existir o username
-            return apology("usuario existente", 403)
         # verifica se a senha foi enviada
         if not request.form.get("password"):
             return apology("senha invalida", 403)
         elif not request.form.get("confirmation") or request.form.get("confirmation") != request.form.get("password") :
             return apology("senha invalida e/ou senha diferente", 403)
-        
-
-        
-
-        
-    return render_template("register.html")
+        # armazena no db
+        try:
+            db.execute(
+                "INSERT INTO users (username, hash) VALUES (?, ?);", request.form.get("username"), 
+                generate_password_hash(request.form.get("password"))
+            )
+        except Exception as e:  # se existir o username
+            return apology(f"usuario existente", 403)
+            
+    return render_template("login.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
