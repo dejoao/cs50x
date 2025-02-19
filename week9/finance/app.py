@@ -43,7 +43,28 @@ def index():
 @login_required
 def buy():
     """Buy shares of stock"""
-    return apology("TODO")
+    if request.method == "POST":
+        # Verificacoes do simbolo e cotacao do simbolo
+        symbol = request.form.get("symbol")
+        if symbol != None:
+            quote = lookup(symbol)
+            if quote == None:
+                return apology("Simbolo invalido", 403)
+        else:
+            return apology("Digite um simbolo", 403)
+        # verificacoes do numero de acoes 
+        qtd = request.form.get("shares")
+        if qtd.isdigit() == False or qtd == None or qtd[0] == "-":
+            return apology("Quantidade invalida", 403)
+        # valor a ser debitado da conta
+        valorDebitado = int(qtd) * float(quote["price"])
+        # valor que usuario tem na conta
+        valorConta = db.execute("SELECT cash FROM users WHERE users.id = ?;", session["user_id"])
+        print(valorConta) # saida foi [{'cash': 10000}], quero que saia somente o 10000. 
+
+
+
+    return render_template("buy.html")
 
 
 @app.route("/history")
