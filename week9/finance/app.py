@@ -5,6 +5,7 @@ from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 
 from helpers import apology, login_required, lookup, usd
 
@@ -56,13 +57,32 @@ def buy():
         qtd = request.form.get("shares")
         if qtd.isdigit() == False or qtd == None or qtd[0] == "-":
             return apology("Quantidade invalida", 403)
+        # adicionar nova tabela no banco de dados - para armazenar as transacoes
+        db.execute("""
+            CREATE TABLE IF NOT EXISTS transactions (
+                id_user INTEGER,
+                username TEXT NOT NULL, 
+                symbol TEXT NOT NULL,
+                price NUMERIC NOT NULL,
+                date TEXT NOT NULL);
+        """)
+        # variaveis necessarias para inserir no db
+        username = db.execute("SELECT username FROM users WHERE users.id = ?;", session["user_id"])
+        data = datetime.today().strftime("%Y-%m-%d")
+        # insere os dados no db
+        db.execute(
+            "INSERT INTO transactions (id_user, username, symbol, price, date) VALUES (?, ?, ?, ?, ?);",
+            session["user_id"], username[0]["username"], quote["symbol"], quote["price"], data 
+            )
         # valor a ser debitado da conta
         valorDebitado = int(qtd) * float(quote["price"])
         # valor que usuario tem na conta
-        valorConta = db.execute("SELECT cash FROM users WHERE users.id = ?;", session["user_id"])
-        print(valorConta) # saida foi [{'cash': 10000}], quero que saia somente o 10000. 
+        consultaCash = db.execute("SELECT cash FROM users WHERE users.id = ?;", session["user_id"])
+        valorConta = consultaCash[0]["cash"]
+        if valorDebitado > valorConta:
+            return apology("Saldo insuficiente", 401)
 
-
+        return redirect("/")
 
     return render_template("buy.html")
 
