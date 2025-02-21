@@ -37,7 +37,8 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("TODO")
+    registrosAcoes = db.execute("SELECT DISTINCT * FROM transactions WHERE id_user = ?", session["user_id"]) # trocar por nova tabela
+    return render_template("index.html", registrosAcoes=registrosAcoes)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -81,6 +82,8 @@ def buy():
         valorConta = consultaCash[0]["cash"]
         if valorDebitado > valorConta:
             return apology("Saldo insuficiente", 401)
+        # Atualizar saldo da conta
+        # Criar tabela para armazenar as acoes da conta NFLX | shares | id_user
 
         return redirect("/")
 

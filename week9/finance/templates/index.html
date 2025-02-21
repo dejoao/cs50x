@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for registrosAcoes in registrosAcoes %} 
+                    <tr>
+                        <td>{{ registrosAcoes.symbol }}</td>
+                        <td></td>
+                        <td>{{ registrosAcoes.price }}</td>
+                     </tr>
+                {% endfor %}
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Cash</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+               <th>TOTAL</th> 
+            </tr>
+        </tfoot>
+    </table>
+
+{% endblock %}
