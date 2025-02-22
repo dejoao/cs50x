@@ -58,15 +58,20 @@ def buy():
         qtd = request.form.get("shares")
         if qtd.isdigit() == False or qtd == None or qtd[0] == "-":
             return apology("Quantidade invalida", 403)
-        # adicionar nova tabela no banco de dados - para armazenar as transacoes
-        db.execute("""
-            CREATE TABLE IF NOT EXISTS transactions (
+        # Criar no vs cs50x
+        """
+        CREATE TABLE IF NOT EXISTS transactions (
                 id_user INTEGER,
                 username TEXT NOT NULL, 
                 symbol TEXT NOT NULL,
                 price NUMERIC NOT NULL,
                 date TEXT NOT NULL);
-        """)
+
+        CREATE TABLE IF NOT EXISTS acoes (
+                id_user INTEGER,
+                symbol TEXT NOT NULL,
+                shares INTEGER); """
+
         # variaveis necessarias para inserir no db
         username = db.execute("SELECT username FROM users WHERE users.id = ?;", session["user_id"])
         data = datetime.today().strftime("%Y-%m-%d")
@@ -75,6 +80,14 @@ def buy():
             "INSERT INTO transactions (id_user, username, symbol, price, date) VALUES (?, ?, ?, ?, ?);",
             session["user_id"], username[0]["username"], quote["symbol"], quote["price"], data 
             )
+        # verifica se o usuario ja tem alguma acao com symbol que esta comprando
+        verificacaoSymbol = db.execute("SELECT symbol FROM acoes WHERE symbol LIKE ?;", quote["symbol"])
+        # se sim atualiza o shares
+        if verificacaoSymbol != []:
+            db.execute("UPDATE acoes SET shares = shares + ? WHERE id_user = ? AND symbol LIKE ?;", qtd, session["user_id"], quote["symbol"])
+        else: # se nao adicionar o symbol e shares no db 
+            db.execute("INSERT INTO acoes (id_user, symbol, shares) VALUES (?, ?, ?);", session["user_id"], quote["symbol"], qtd)
+        
         # valor a ser debitado da conta
         valorDebitado = int(qtd) * float(quote["price"])
         # valor que usuario tem na conta
@@ -83,7 +96,8 @@ def buy():
         if valorDebitado > valorConta:
             return apology("Saldo insuficiente", 401)
         # Atualizar saldo da conta
-        # Criar tabela para armazenar as acoes da conta NFLX | shares | id_user
+        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?;", valorDebitado, session["user_id"])
+        
 
         return redirect("/")
 
