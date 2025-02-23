@@ -37,8 +37,12 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    registrosAcoes = db.execute("SELECT DISTINCT * FROM transactions WHERE id_user = ?", session["user_id"]) # trocar por nova tabela
-    return render_template("index.html", registrosAcoes=registrosAcoes)
+    registrosAcoes = db.execute("SELECT DISTINCT * FROM acoes WHERE id_user = ?", session["user_id"]) # trocar por nova tabela
+    # price 
+    for registro in registrosAcoes:
+        cotacao = lookup(registro["symbol"])
+    # achar solucao para a cotacao | posso tambem adicionar os dados que preciso na tabela acoes
+    return render_template("index.html", registrosAcoes=registrosAcoes, cotacao=cotacao)
 
 
 @app.route("/buy", methods=["GET", "POST"])
