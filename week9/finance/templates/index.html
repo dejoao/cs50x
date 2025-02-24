@@ -22,7 +22,8 @@
                     <tr>
                         <td>{{ registrosAcoes.symbol }}</td>
                         <td>{{ registrosAcoes.shares }}</td>
-                        <td>{{ cotacao.price }}</td>
+                        <td>{{ registrosAcoes.price }}</td>
+                        <td>{{ registrosAcoes.price * registrosAcoes.shares }}</td>
                      </tr>
                 {% endfor %}
             </tr>
@@ -32,11 +33,13 @@
                 <th></th>
                 <th></th>
                 <th>Cash</th>
+                <td>{{ cash|round(2) }}</td>
             </tr>
             <tr>
                 <th></th>
                 <th></th>
                <th>TOTAL</th> 
+               <td>{{ totalCash|round(2) }}</td>
             </tr>
         </tfoot>
     </table>

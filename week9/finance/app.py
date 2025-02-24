@@ -38,11 +38,16 @@ def after_request(response):
 def index():
     """Show portfolio of stocks"""
     registrosAcoes = db.execute("SELECT DISTINCT * FROM acoes WHERE id_user = ?", session["user_id"]) # trocar por nova tabela
-    # price 
+    cash = db.execute("SELECT cash FROM users WHERE id = ?;", session["user_id"])
+    totalAcoes = 0
     for registro in registrosAcoes:
-        cotacao = lookup(registro["symbol"])
-    # achar solucao para a cotacao | posso tambem adicionar os dados que preciso na tabela acoes
-    return render_template("index.html", registrosAcoes=registrosAcoes, cotacao=cotacao)
+        if registro["shares"] > 1:
+            totalAcoes += registro["shares"] * registro["price"]
+        else:
+            totalAcoes =+ registro["price"]
+
+    totalCash = cash[0]["cash"] + totalAcoes
+    return render_template("index.html", registrosAcoes=registrosAcoes, cash=cash[0]["cash"], totalCash=totalCash)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -74,7 +79,8 @@ def buy():
         CREATE TABLE IF NOT EXISTS acoes (
                 id_user INTEGER,
                 symbol TEXT NOT NULL,
-                shares INTEGER); """
+                shares INTEGER,
+                price INTEGER); """
 
         # variaveis necessarias para inserir no db
         username = db.execute("SELECT username FROM users WHERE users.id = ?;", session["user_id"])
@@ -90,7 +96,7 @@ def buy():
         if verificacaoSymbol != []:
             db.execute("UPDATE acoes SET shares = shares + ? WHERE id_user = ? AND symbol LIKE ?;", qtd, session["user_id"], quote["symbol"])
         else: # se nao adicionar o symbol e shares no db 
-            db.execute("INSERT INTO acoes (id_user, symbol, shares) VALUES (?, ?, ?);", session["user_id"], quote["symbol"], qtd)
+            db.execute("INSERT INTO acoes (id_user, symbol, shares, price) VALUES (?, ?, ?, ?);", session["user_id"], quote["symbol"], qtd, quote["price"])
         
         # valor a ser debitado da conta
         valorDebitado = int(qtd) * float(quote["price"])
@@ -211,5 +217,12 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
+    if request.method == "POST":
+        # 
+    else:
+        # lista com todas empresas que o usuario tem
+        empresas = db.execute("SELECT symbol FROM acoes WHERE id_user = ?;", session["user_id"])
+        print(empresas)
+        return render_template("sell.html", empresas=empresas)
 
-    return apology("TODO")
+    
