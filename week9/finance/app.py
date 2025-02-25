@@ -74,7 +74,8 @@ def buy():
                 username TEXT NOT NULL, 
                 symbol TEXT NOT NULL,
                 price NUMERIC NOT NULL,
-                date TEXT NOT NULL);
+                date TEXT NOT NULL,
+                type TEXT NOT NULL);
 
         CREATE TABLE IF NOT EXISTS acoes (
                 id_user INTEGER,
@@ -87,8 +88,8 @@ def buy():
         data = datetime.today().strftime("%Y-%m-%d")
         # insere os dados no db
         db.execute(
-            "INSERT INTO transactions (id_user, username, symbol, price, date) VALUES (?, ?, ?, ?, ?);",
-            session["user_id"], username[0]["username"], quote["symbol"], quote["price"], data 
+            "INSERT INTO transactions (id_user, username, symbol, price, date, type) VALUES (?, ?, ?, ?, ?, ?);",
+            session["user_id"], username[0]["username"], quote["symbol"], quote["price"], data, "buy" 
             )
         # verifica se o usuario ja tem alguma acao com symbol que esta comprando
         verificacaoSymbol = db.execute("SELECT symbol FROM acoes WHERE symbol LIKE ?;", quote["symbol"])
@@ -218,7 +219,35 @@ def register():
 def sell():
     """Sell shares of stock"""
     if request.method == "POST":
-        # 
+        # verificacoes sobre a quantidade
+        qtd = request.form.get("shares")
+        if qtd.isdigit() == False or qtd == None or qtd[0] == "-":
+            return apology("Quantidade invalida", 403)
+        # verificar quantidade
+        symbolVendido = request.form.get("symbol") 
+        qtdAcoesDoUsuario = db.execute("SELECT shares FROM acoes WHERE id_user = ? AND symbol = ?;", session["user_id"], symbolVendido)
+        if int(qtd) > qtdAcoesDoUsuario[0]["shares"]:
+            return apology("Quantidade invalida", 403)
+
+        # atualizar tabelas users.cash, inserir na transaction e atulizar acoes
+        cotacaoSymbol = lookup(symbolVendido)
+        valorDaVenda = int(qtd) * cotacaoSymbol["price"]
+        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?;", valorDaVenda, session["user_id"])
+        #atulizar acoes
+        # verificar se vendeu todas as shares da acao
+        if int(qtd) == qtdAcoesDoUsuario:
+            db.execute("DELETE FROM acoes WHERE id_user = ? AND symbol = ?", session["user_id"], symbolVendido)
+        else:
+            db.execute("UPDATE acoes SET shares = shares - ? WHERE id_user = ?;", int(qtd), session["user_id"])
+        # inserir na transaction 
+        username = db.execute("SELECT username FROM users WHERE users.id = ?;", session["user_id"])
+        data = datetime.today().strftime("%Y-%m-%d")
+        db.execute(
+            "INSERT INTO transactions (id_user, username, symbol, price, date, type) VALUES (?, ?, ?, ?, ?, ?);",
+            session["user_id"], username[0]["username"], symbolVendido, cotacaoSymbol["price"], data, "sell"
+        )
+
+        return redirect("/")
     else:
         # lista com todas empresas que o usuario tem
         empresas = db.execute("SELECT symbol FROM acoes WHERE id_user = ?;", session["user_id"])

@@ -23,7 +23,7 @@
                         <td>{{ registrosAcoes.symbol }}</td>
                         <td>{{ registrosAcoes.shares }}</td>
                         <td>{{ registrosAcoes.price }}</td>
-                        <td>{{ registrosAcoes.price * registrosAcoes.shares }}</td>
+                        <td>{{ (registrosAcoes.price * registrosAcoes.shares)|round(2) }}</td>
                      </tr>
                 {% endfor %}
             </tr>
