@@ -37,8 +37,9 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    registrosAcoes = db.execute("SELECT DISTINCT * FROM acoes WHERE id_user = ?", session["user_id"]) # trocar por nova tabela
+    registrosAcoes = db.execute("SELECT DISTINCT * FROM acoes WHERE id_user = ?", session["user_id"])
     cash = db.execute("SELECT cash FROM users WHERE id = ?;", session["user_id"])
+    # calculo do valor das acoes
     totalAcoes = 0
     for registro in registrosAcoes:
         if registro["shares"] > 1:
@@ -75,7 +76,7 @@ def buy():
                 symbol TEXT NOT NULL,
                 price NUMERIC NOT NULL,
                 date TEXT NOT NULL,
-                type TEXT NOT NULL);
+                shares INTEGER);
 
         CREATE TABLE IF NOT EXISTS acoes (
                 id_user INTEGER,
@@ -88,8 +89,8 @@ def buy():
         data = datetime.today().strftime("%Y-%m-%d")
         # insere os dados no db
         db.execute(
-            "INSERT INTO transactions (id_user, username, symbol, price, date, type) VALUES (?, ?, ?, ?, ?, ?);",
-            session["user_id"], username[0]["username"], quote["symbol"], quote["price"], data, "buy" 
+            "INSERT INTO transactions (id_user, username, symbol, price, date, shares) VALUES (?, ?, ?, ?, ?, ?);",
+            session["user_id"], username[0]["username"], quote["symbol"], quote["price"], data, int(qtd) 
             )
         # verifica se o usuario ja tem alguma acao com symbol que esta comprando
         verificacaoSymbol = db.execute("SELECT symbol FROM acoes WHERE symbol LIKE ?;", quote["symbol"])
@@ -119,7 +120,9 @@ def buy():
 @login_required
 def history():
     """Show history of transactions"""
-    return apology("TODO")
+    registrosAcoes = db.execute("SELECT * FROM transactions WHERE id_user = ?", session["user_id"])
+
+    return render_template("history.html", registrosAcoes=registrosAcoes)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -243,8 +246,8 @@ def sell():
         username = db.execute("SELECT username FROM users WHERE users.id = ?;", session["user_id"])
         data = datetime.today().strftime("%Y-%m-%d")
         db.execute(
-            "INSERT INTO transactions (id_user, username, symbol, price, date, type) VALUES (?, ?, ?, ?, ?, ?);",
-            session["user_id"], username[0]["username"], symbolVendido, cotacaoSymbol["price"], data, "sell"
+            "INSERT INTO transactions (id_user, username, symbol, price, date, shares) VALUES (?, ?, ?, ?, ?, ?);",
+            session["user_id"], username[0]["username"], symbolVendido, cotacaoSymbol["price"], data, (int(qtd) * -1)
         )
 
         return redirect("/")
@@ -254,4 +257,16 @@ def sell():
         print(empresas)
         return render_template("sell.html", empresas=empresas)
 
+@app.route("/money", methods=["GET", "POST"])
+@login_required
+def money():
+    """Add Money"""
+    if request.method == "POST":
+        qtd = request.form.get("money")
+        if int(qtd) < 0 or qtd == None:
+            return apology("Quantidade invalida", 403)
+        
+        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?;", qtd, session["user_id"])
+        return redirect("/")
+    return render_template("money.html")
     
