@@ -1,5 +1,5 @@
 import os
-import sqlite3 
+import sqlite3
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -37,7 +37,8 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    registrosAcoes = db.execute("SELECT DISTINCT * FROM acoes WHERE id_user = ?", session["user_id"])
+    registrosAcoes = db.execute(
+        "SELECT DISTINCT * FROM acoes WHERE id_user = ?", session["user_id"])
     cash = db.execute("SELECT cash FROM users WHERE id = ?;", session["user_id"])
     # calculo do valor das acoes
     totalAcoes = 0
@@ -45,7 +46,7 @@ def index():
         if registro["shares"] > 1:
             totalAcoes += registro["shares"] * registro["price"]
         else:
-            totalAcoes =+ registro["price"]
+            totalAcoes = + registro["price"]
 
     totalCash = cash[0]["cash"] + totalAcoes
     return render_template("index.html", registrosAcoes=registrosAcoes, cash=cash[0]["cash"], totalCash=totalCash)
@@ -61,28 +62,13 @@ def buy():
         if symbol != None:
             quote = lookup(symbol)
             if quote == None:
-                return apology("Simbolo invalido", 403)
+                return apology("Simbolo invalido", 400)
         else:
-            return apology("Digite um simbolo", 403)
-        # verificacoes do numero de acoes 
+            return apology("Digite um simbolo", 400)
+        # verificacoes do numero de acoes
         qtd = request.form.get("shares")
         if qtd.isdigit() == False or qtd == None or qtd[0] == "-":
-            return apology("Quantidade invalida", 403)
-        # Criar no vs cs50x
-        """
-        CREATE TABLE IF NOT EXISTS transactions (
-                id_user INTEGER,
-                username TEXT NOT NULL, 
-                symbol TEXT NOT NULL,
-                price NUMERIC NOT NULL,
-                date TEXT NOT NULL,
-                shares INTEGER);
-
-        CREATE TABLE IF NOT EXISTS acoes (
-                id_user INTEGER,
-                symbol TEXT NOT NULL,
-                shares INTEGER,
-                price INTEGER); """
+            return apology("Quantidade invalida", 400)
 
         # variaveis necessarias para inserir no db
         username = db.execute("SELECT username FROM users WHERE users.id = ?;", session["user_id"])
@@ -90,26 +76,30 @@ def buy():
         # insere os dados no db
         db.execute(
             "INSERT INTO transactions (id_user, username, symbol, price, date, shares) VALUES (?, ?, ?, ?, ?, ?);",
-            session["user_id"], username[0]["username"], quote["symbol"], quote["price"], data, int(qtd) 
-            )
+            session["user_id"], username[0]["username"], quote["symbol"], quote["price"], data, int(
+                qtd)
+        )
         # verifica se o usuario ja tem alguma acao com symbol que esta comprando
-        verificacaoSymbol = db.execute("SELECT symbol FROM acoes WHERE symbol LIKE ?;", quote["symbol"])
+        verificacaoSymbol = db.execute(
+            "SELECT symbol FROM acoes WHERE symbol LIKE ?;", quote["symbol"])
         # se sim atualiza o shares
         if verificacaoSymbol != []:
-            db.execute("UPDATE acoes SET shares = shares + ? WHERE id_user = ? AND symbol LIKE ?;", qtd, session["user_id"], quote["symbol"])
-        else: # se nao adicionar o symbol e shares no db 
-            db.execute("INSERT INTO acoes (id_user, symbol, shares, price) VALUES (?, ?, ?, ?);", session["user_id"], quote["symbol"], qtd, quote["price"])
-        
+            db.execute("UPDATE acoes SET shares = shares + ? WHERE id_user = ? AND symbol LIKE ?;",
+                       qtd, session["user_id"], quote["symbol"])
+        else:  # se nao adicionar o symbol e shares no db
+            db.execute("INSERT INTO acoes (id_user, symbol, shares, price) VALUES (?, ?, ?, ?);",
+                       session["user_id"], quote["symbol"], qtd, quote["price"])
+
         # valor a ser debitado da conta
         valorDebitado = int(qtd) * float(quote["price"])
         # valor que usuario tem na conta
         consultaCash = db.execute("SELECT cash FROM users WHERE users.id = ?;", session["user_id"])
         valorConta = consultaCash[0]["cash"]
         if valorDebitado > valorConta:
-            return apology("Saldo insuficiente", 401)
+            return apology("Saldo insuficiente", 400)
         # Atualizar saldo da conta
-        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?;", valorDebitado, session["user_id"])
-        
+        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?;",
+                   valorDebitado, session["user_id"])
 
         return redirect("/")
 
@@ -136,11 +126,11 @@ def login():
     if request.method == "POST":
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("must provide password", 400)
 
         # Query database for username
         rows = db.execute(
@@ -184,13 +174,12 @@ def quote():
         if sbl != None:
             quote = lookup(sbl)
             if quote == None:
-                return apology("Simbolo invalido", 403)
+                return apology("Simbolo invalido", 400)
         else:
-            return apology("Simbolo invalido", 403)
-    
+            return apology("Simbolo invalido", 400)
+
         return render_template("quoted.html", name=quote["name"], price=quote["price"], symbol=quote["symbol"])
     return render_template("quote.html")
-    
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -199,22 +188,22 @@ def register():
     if request.method == "POST":
         # verifica se username foi enviado
         if not request.form.get("username"):
-                return apology("usuario invalido", 403)
+            return apology("usuario invalido", 400)
         # verifica se a senha foi enviada
         if not request.form.get("password"):
-            return apology("senha invalida", 403)
-        elif not request.form.get("confirmation") or request.form.get("confirmation") != request.form.get("password") :
-            return apology("senha invalida e/ou senha diferente", 403)
+            return apology("senha invalida", 400)
+        elif not request.form.get("confirmation") or request.form.get("confirmation") != request.form.get("password"):
+            return apology("senha invalida e/ou senha diferente", 400)
         # armazena no db
         try:
             db.execute(
-                "INSERT INTO users (username, hash) VALUES (?, ?);", request.form.get("username"), 
+                "INSERT INTO users (username, hash) VALUES (?, ?);", request.form.get("username"),
                 generate_password_hash(request.form.get("password"))
             )
         except Exception as e:  # se existir o username
-            return apology(f"usuario existente", 403)
-            
-    return render_template("login.html")
+            return apology(f"usuario existente", 400)
+
+    return render_template("register.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -225,29 +214,34 @@ def sell():
         # verificacoes sobre a quantidade
         qtd = request.form.get("shares")
         if qtd.isdigit() == False or qtd == None or qtd[0] == "-":
-            return apology("Quantidade invalida", 403)
+            return apology("Quantidade invalida", 400)
         # verificar quantidade
-        symbolVendido = request.form.get("symbol") 
-        qtdAcoesDoUsuario = db.execute("SELECT shares FROM acoes WHERE id_user = ? AND symbol = ?;", session["user_id"], symbolVendido)
+        symbolVendido = request.form.get("symbol")
+        qtdAcoesDoUsuario = db.execute(
+            "SELECT shares FROM acoes WHERE id_user = ? AND symbol = ?;", session["user_id"], symbolVendido)
         if int(qtd) > qtdAcoesDoUsuario[0]["shares"]:
-            return apology("Quantidade invalida", 403)
+            return apology("Quantidade invalida", 400)
 
         # atualizar tabelas users.cash, inserir na transaction e atulizar acoes
         cotacaoSymbol = lookup(symbolVendido)
         valorDaVenda = int(qtd) * cotacaoSymbol["price"]
-        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?;", valorDaVenda, session["user_id"])
-        #atulizar acoes
+        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?;",
+                   valorDaVenda, session["user_id"])
+        # atulizar acoes
         # verificar se vendeu todas as shares da acao
         if int(qtd) == qtdAcoesDoUsuario:
-            db.execute("DELETE FROM acoes WHERE id_user = ? AND symbol = ?", session["user_id"], symbolVendido)
+            db.execute("DELETE FROM acoes WHERE id_user = ? AND symbol = ?",
+                       session["user_id"], symbolVendido)
         else:
-            db.execute("UPDATE acoes SET shares = shares - ? WHERE id_user = ?;", int(qtd), session["user_id"])
-        # inserir na transaction 
+            db.execute("UPDATE acoes SET shares = shares - ? WHERE id_user = ?;",
+                       int(qtd), session["user_id"])
+        # inserir na transaction
         username = db.execute("SELECT username FROM users WHERE users.id = ?;", session["user_id"])
         data = datetime.today().strftime("%Y-%m-%d")
         db.execute(
             "INSERT INTO transactions (id_user, username, symbol, price, date, shares) VALUES (?, ?, ?, ?, ?, ?);",
-            session["user_id"], username[0]["username"], symbolVendido, cotacaoSymbol["price"], data, (int(qtd) * -1)
+            session["user_id"], username[0]["username"], symbolVendido, cotacaoSymbol["price"], data, (int(
+                qtd) * -1)
         )
 
         return redirect("/")
@@ -257,6 +251,7 @@ def sell():
         print(empresas)
         return render_template("sell.html", empresas=empresas)
 
+
 @app.route("/money", methods=["GET", "POST"])
 @login_required
 def money():
@@ -264,9 +259,8 @@ def money():
     if request.method == "POST":
         qtd = request.form.get("money")
         if int(qtd) < 0 or qtd == None:
-            return apology("Quantidade invalida", 403)
-        
+            return apology("Quantidade invalida", 400)
+
         db.execute("UPDATE users SET cash = cash + ? WHERE id = ?;", qtd, session["user_id"])
         return redirect("/")
     return render_template("money.html")
-    
